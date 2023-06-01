@@ -41,7 +41,7 @@ resource "aws_instance" "web" {
 resource "local_file" "inventory" {
   content = templatefile("./template/hosts.tpl",
     {
-      sre-instance = aws_instance.web.private_ip
+      sre-instance = aws_instance.web.public_ip
       key_name = var.key_pair_name
     }
   )
