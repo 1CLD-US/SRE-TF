@@ -45,7 +45,7 @@ resource "local_file" "inventory" {
       key_name = var.key_pair_name
     }
   )
-  filename = "~/SRE-TF/ansible/hosts.cfg"
+  filename = pathexpand("~/SRE-TF/ansible/inventory")
 }
 
 resource "local_file" "readme" {
@@ -66,7 +66,9 @@ resource "local_file" "terraform_key_pair" {
 }
 
 resource "local_file" "ansible_key_pair" {
-  filename = "~/SRE-TF/ansible/${var.key_pair_name}.pem"
+  filename = pathexpand("~/SRE-TF/ansible/${var.key_pair_name}.pem")
   file_permission = "0600"
+  content = tls_private_key.keypair.private_key_pem
+}
   content = tls_private_key.keypair.private_key_pem
 }
