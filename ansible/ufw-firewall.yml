@@ -1,0 +1,7 @@
+---
+- hosts: sre-hosts
+  become: true
+  roles:
+    - ufw-firewall
+
+#Please ensure you create the Ansible role before running this Playbook
