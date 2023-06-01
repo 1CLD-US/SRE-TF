@@ -24,7 +24,7 @@ resource "aws_s3_bucket_acl" "bucketacl" {
 }
 
 resource "local_file" "ansible_vars" {
-  filename = "/home/ubuntu/artifacts/vars.yaml"
+  filename = "~/SRE-TF/ansible/vars.yaml"
   file_permission = "0600"
   content = templatefile("./templates/vars.tpl",
     {
