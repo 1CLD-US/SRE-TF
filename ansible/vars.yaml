@@ -1,1 +1,7 @@
+hostname: podx-sre-instance
+bucket: podx-bucket
+dbuser: podxuser
+dbpass: cisco123
+dbname: podxdb
 
+# Change 'x' in the variables to your student number
