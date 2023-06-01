@@ -1,0 +1,20 @@
+---
+- hosts: sre-hosts
+  become: yes
+  tasks:
+    - name: Set Hostname
+      hostname:
+        name: "sre-pod-x"
+        
+#Ensure you update hostname to your student number
+#performs an update of the package manager and then installs basic utilities
+
+    - name: Update apt and install required system packages
+      apt:
+        pkg:
+          - curl
+          - vim
+          - git
+          - pip
+        state: latest
+        update_cache: true
