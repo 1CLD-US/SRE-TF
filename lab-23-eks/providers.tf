@@ -11,7 +11,7 @@ terraform {
 
 provider "aws" {
   region = var.region
-  profile = "srelab"
+  profile = "default"
 
 
 
