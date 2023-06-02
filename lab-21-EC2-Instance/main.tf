@@ -70,5 +70,3 @@ resource "local_file" "ansible_key_pair" {
   file_permission = "0600"
   content = tls_private_key.keypair.private_key_pem
 }
-  content = tls_private_key.keypair.private_key_pem
-}
