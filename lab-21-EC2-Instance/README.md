@@ -16,13 +16,13 @@ In this section, we'll pull down the EC2-Instance manifest files that we're goin
 
 **Step 1.** Log into the AWS instance that's been assigned to your pod and do the following:
 
--   Git pull <repo>
--   cd Studentx/EC2-Instance/
+-   Git clone https://github.com/1CLD-US/SRE-TF.git
+-   cd SRE-TF/lab-21-EC2-Instance
 -   ls 
 -   verify the following files are in the directory
     -   Terraform.tf, variables.tf, outputs.tf, main.tf, terraform.tfvars, provider.tf and a folder called template
 
-**Step 2.** Modify backend.tf
+**Step 2.** Modify terraform.tf
 
 Now we'll modify the backend configuration so that our state file is stored in an S3 bucked. The S3 bucket we'll be using for this lab is a shared bucket for this class. Let's modify the key value with our pod number. For example: 
 
@@ -57,7 +57,7 @@ terraform {
   ```
   **Step 4.** Update our terraform.tfvars file
   
-  The terraform.tfvars file is where we set our variables for our terraform manifests. Please update the tfvars file with the appropriate information about your pod number. For example:
+  The terraform.tfvars file is where we set our variables for our terraform manifests. Please update 'X' in the tfvars file with the appropriate information about your pod number. For example:
 
   ```terraform
   name = "pod1-vm"
@@ -122,11 +122,11 @@ resource "aws_instance" "web" {
 resource "local_file" "inventory" {
   content = templatefile("./template/hosts.tpl",
     {
-      sre-instance = aws_instance.web.private_ip
+      sre-instance = aws_instance.web.public_ip
       key_name = var.key_pair_name
     }
   )
-  filename = "/home/ubuntu/ansible/hosts.cfg"
+  filename = pathexpand("~/SRE-TF/ansible/inventory")
 }
 
 resource "local_file" "readme" {
@@ -137,7 +137,7 @@ resource "local_file" "readme" {
       PUBLIC_IP_ADDRESS = aws_instance.web.public_ip
     }
   )
-  filename = "./README.txt"
+  filename = "./VM-INFO.txt"
 }
 
 resource "local_file" "terraform_key_pair" {
@@ -147,8 +147,10 @@ resource "local_file" "terraform_key_pair" {
 }
 
 resource "local_file" "ansible_key_pair" {
-  filename = "/home/ubuntu/ansible/${var.key_pair_name}.pem"
+  filename = pathexpand("~/SRE-TF/ansible/${var.key_pair_name}.pem")
   file_permission = "0600"
+  content = tls_private_key.keypair.private_key_pem
+}
   content = tls_private_key.keypair.private_key_pem
 }
 ```
@@ -269,12 +271,12 @@ drwxrwxr-x 2 ubuntu ubuntu 4096 Apr  7 19:27 template
 ~/terraform/EC2-Instance$
 ```
 
-**Step 10.** Check README for information about your instance
+**Step 10.** Check VM-INFO.txt for information about your instance
 
 Example
 
 ```cli
-cat README.tpl
+cat VM-INFO.txt
 ###############################################################################
 Your EC2 instance can be accessed via ssh using the following:
 
