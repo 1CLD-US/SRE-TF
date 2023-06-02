@@ -16,7 +16,7 @@ In this section, we'll pull down the EC2-Instance manifest files that we're goin
 
 **Step 1.** Log into the AWS instance that's been assigned to your pod and do the following:
 
--   Git clone https://github.com/1CLD-US/SRE-TF.git
+-   git clone https://github.com/1CLD-US/SRE-TF.git
 -   cd SRE-TF/lab-21-EC2-Instance
 -   ls 
 -   verify the following files are in the directory
