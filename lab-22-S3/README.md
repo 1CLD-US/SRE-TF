@@ -15,14 +15,13 @@ In this section, we'll pull down the EKS manifest files that we're going to use 
 
 **Step 1.** Log into the AWS instance that's been assigned to your pod and do the following:
 
--   Git pull <repo>
--   cd S3
+-   cd ~/SRE-TF/lab-22-S3
 -   ls 
 -   verify the following files are in the directory
     -   main.tf, provider.tf, terraform.tf, terraform.tfvars, variables.tf
     -   A templates directory
   
-**Step 2.** Modify backend.tf
+**Step 2.** Modify terraform.tfvars
 
 Now we'll modify the .tfvars files with the specifics of your pod. Modify 'podx' with your pod number:
  
@@ -64,7 +63,7 @@ resource "aws_s3_bucket_acl" "bucketacl" {
 }
 
 resource "local_file" "ansible_vars" {
-  filename = "/home/ubuntu/ansible/vars.yaml"
+  filename = pathexpand("~/SRE-TF/ansible/vars.yaml")
   file_permission = "0600"
   content = templatefile("./templates/vars.tpl",
     {
@@ -359,4 +358,4 @@ resource "local_file" "ansible_vars" {
     id                   = "adb20fe7f9b7fe1b0e6f996d7dad1428e778c5b5"
 }
 ```
-Congrats! This bucket will be used for our EC2 instance in the next lab. We'll create an EC2 instance and then mount this S3 bucket. 
+Congrats! This bucket will be mounted on our EC2 Instance in the Ansible labs. You'll notice now in your Ansible directory under SRE-TF, there is now a vars.yaml file. This file was generated via a template in this terraform manifest. We'll modify this file with your POD information in the Ansible lab.
