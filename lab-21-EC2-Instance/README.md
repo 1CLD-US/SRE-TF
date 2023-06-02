@@ -229,7 +229,7 @@ jobs:
 
 **Step 7.** Push Modified code back to Github  
 
-Navigate to the terraform/EC2-Instance folder on your jump host and type:
+Navigate to the ~/SRE-TF-lab-21-EC2-Instance folder on your jump host and type:
 
 ```cli
 Git add *
